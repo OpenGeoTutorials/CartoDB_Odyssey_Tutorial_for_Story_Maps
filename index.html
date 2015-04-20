@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Cartodb Odyssey.js Tutorial for Story Maps by StanfordGeospatialCenter</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Cartodb Odyssey.js Tutorial for Story Maps</h1>
+          <h2>A quick tutorial for using CartoDB and Odyssey.js for creating story maps for free!</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/StanfordGeospatialCenter/CartoDB_Odyssey_Tutorial_for_Story_Maps/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/StanfordGeospatialCenter/CartoDB_Odyssey_Tutorial_for_Story_Maps/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/StanfordGeospatialCenter/CartoDB_Odyssey_Tutorial_for_Story_Maps" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="using-cartodb-and-odysseyjs-for-making-story-maps" class="anchor" href="#using-cartodb-and-odysseyjs-for-making-story-maps" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using CartoDB and Odyssey.js for Making Story Maps</h1>
+
+<p>This tutorial has been written so that it is generic enough for anyone to easily create a story map using a free CartoDB account and Odyssey.js. The tutorial is written specifically to support a course at Stanford University, but is being made publicly available for the benefit of all. We like the <a href="https://2015.foss4g-na.org/">FOSS4G</a> ethos, here, and try to live it. </p>
+
+<p>I'll be maching up information from various sources (<a href="http://www.wikipedia.org">Wikipedia</a>, etc...) on the modern history of tattooing in San Francisco. Mostly because it's interesting, and there is plenty of material that is cool to look at. That said, I'm not a historian and this is not an authoritative map of that history (now that I think of it, that would be cool though). It's a tutorial on how to make a Story Map from CartoDB and Odyseey.js. </p>
+
+<h3>
+<a id="in-this-tutorial-you-will-learn-to" class="anchor" href="#in-this-tutorial-you-will-learn-to" aria-hidden="true"><span class="octicon octicon-link"></span></a>In This Tutorial, You Will Learn To:</h3>
+
+<ul>
+<li>Create an empty CartoDB table</li>
+<li>Populate that table with fields for your data</li>
+<li>Add the data to your new empty table</li>
+<li>
+<strong>'Geocode'</strong> your records so that they show up on the map</li>
+<li>Customize the <strong>Pop-up</strong> and <strong>Hover</strong> doo-dads</li>
+<li>Find your Map ID to put into Odyssey.js</li>
+<li>Use the Odyssey.js 'Sandbox' to create a basic Story Map</li>
+<li>Use an historic map from DavidRumsey.com as a basemap in your Story Map</li>
+<li>Share your Odyssey.js Story Map with a URL, Embed Code, or host it yourself.</li>
+</ul>
+
+<h3>
+<a id="what-you-will-need-before-getting-started" class="anchor" href="#what-you-will-need-before-getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>What You Will Need Before Getting Started</h3>
+
+<ul>
+<li>Something interesting to make a Story Map of!</li>
+<li>Information about the locations that make up your story
+
+<ul>
+<li>The <strong>Latitude &amp; Longitude</strong> of your locations (Go to <a href="http://maps.google.com">Google Maps</a>, find your location, <strong>right-click</strong> on it and select <strong>What's Here</strong>. You can <em>cut-&amp;-paste</em>* the coordinates from the resulting info window)</li>
+</ul>
+</li>
+</ul>
+
+<p><img src="./images/googlemapswhatshere.png" alt="what's here">  <img src="./images/googlemapslatlong.png" alt="Google Maps Coordinates"></p>
+
+<ul>
+<li>Links (URLs) to images</li>
+<li>Links (URLs) to more content</li>
+<li>Narrative text about your subject</li>
+<li>etc...
+
+<ul>
+<li>A <strong>CartoDB account</strong>. You can get a free one, here: <a href="https://cartodb.com/signup">CartoDB Free Account</a>. If you have an <strong>.edu</strong> email address, you can get a slightly better one, here: <a href="https://cartodb.com/signup?plan=academy">CartoDB Aademy Account</a>
+</li>
+</ul>
+</li>
+</ul>
+
+<h3>
+<a id="it-would-be-incredibly-helpful-if-you" class="anchor" href="#it-would-be-incredibly-helpful-if-you" aria-hidden="true"><span class="octicon octicon-link"></span></a>It Would Be Incredibly Helpful if You...</h3>
+
+<ul>
+<li>Go through the following <a href="http:/academy.cartodb.com/">CartoDB Academy courses:</a> 
+
+<ul>
+<li>
+<a href="http://academy.cartodb.com/courses/01-beginners-course.html#">Online Mapping for Beginners</a> - Basic concepts of online mapping</li>
+<li>
+<a href="http://academy.cartodb.com/courses/02-design-for-beginners.html">Introduction to Map Design</a> - Master the basics of designing data for your maps!</li>
+</ul>
+</li>
+<li>Learn more about <a href="http://daringfireball.net/projects/markdown/">MarkDown</a>, which is the text /ing 'language' you will use to create the content in your Odyssey.js Story Map (It's also what this tutorial is written in!).</li>
+<li>Take a look at these pages from the w3schools.com:
+
+<ul>
+<li>
+<a href="http://www.w3schools.com/tags/tag_img.asp">HTML img Tag</a> - We'll use this to turn our image URL into the image in our pop-ups</li>
+<li>
+<a href="http://www.w3schools.com/tags/tag_a.asp">HTML a Tag</a> - We'll use this to turn our Link URLs into actual links in our pop-ups</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="getting-started-with-cartodb" class="anchor" href="#getting-started-with-cartodb" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started with CartoDB</h2>
+
+<ul>
+<li>Login to your CartoDB Account (if you don't have one, see above).</li>
+</ul>
+
+<h3>
+<a id="create-an-empty-mapdataset" class="anchor" href="#create-an-empty-mapdataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create an Empty Map/Dataset</h3>
+
+<ul>
+<li>Click on the <strong>New Map</strong> Button.</li>
+</ul>
+
+<p><img src="./images/newmap.png" alt="New Map Button"></p>
+
+<ul>
+<li>Click on the <strong>Create New Map</strong> button</li>
+</ul>
+
+<p><img src="./images/createnew.png" alt="Create a new map"></p>
+
+<ul>
+<li>Click on your <strong>untitled_map</strong> to highlight it and then click the <strong>Create Empty Map</strong> link at the top right of the page</li>
+</ul>
+
+<p><img src="./images/createemptymap.png" alt="Create a new map, again"></p>
+
+<ul>
+<li>Click on yet another <strong>Create Map</strong> button...</li>
+</ul>
+
+<p><img src="./images/createnewmapagain.png" alt="Create a new map, again"></p>
+
+<h3>
+<a id="adding-fields-to-an-empty-cartodb-table" class="anchor" href="#adding-fields-to-an-empty-cartodb-table" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding Fields to an Empty CartoDB Table</h3>
+
+<p><img src="./images/initialmapview.png" alt="Initial Map View">
+You should now see something like the image, above, with a basic CartoDB Basemap and the tools you need to begin building your map. You should have already gone through the CartoDB Academy Basic courses, so we won't go through all of the details, now. We're going to get right to work creating fields to hold our content. Let's get started...</p>
+
+<ul>
+<li>Click on the <strong>Data View</strong> button at the top of the page...</li>
+</ul>
+
+<p><img src="./images/dataview.png" alt="Create a new map, again"></p>
+
+<ul>
+<li>CartoDB will tell you to start adding rows, but we're not ready for that, yet. First, we want to add some columns to hold the content we want in our pop-ups and hoveer actions. Click on the <strong>Add Columns</strong> button, instead...</li>
+</ul>
+
+<p><img src="./images/addcolumns.png" alt="Add Columns"></p>
+
+<ul>
+<li>Our blank table already has <strong>description</strong> and <strong>name</strong> fields, so we don't need to add those. We <em>do</em> want to add images to our pop-ups, as well as links our image sources and maybe even links to other websites with more information on the subject of the points we input. Let's add columns for those...</li>
+</ul>
+
+<p>Add the following columns using the <strong>Add new column</strong> dialog box (just click the <strong>Add Column</strong> button again for each one):</p>
+
+<ul>
+<li>
+<strong>'img_url1'</strong> with a type of <strong>'string'</strong> (this will hold the URL for the image you want to show up in your pop-up)</li>
+<li>
+<strong>'img_url1_src'</strong> with a type of <strong>'string'</strong> (to hold the URL of the website you got the image from)
+
+<ul>
+<li>If you want more than one image per pop-up, just add more sets of <strong>'img_url#'</strong> and <strong>'img_url#_src'</strong> columns, iterating the number (not too many, though, you'll be able to insert images into the narrative text of your Odyssey.js Story Map)</li>
+</ul>
+</li>
+<li>
+<strong>'link_url1'</strong> with a type of <strong>'string'</strong> (This will hold a URL to link out to other sources of information)
+
+<ul>
+<li>Again, if you want more links, just iterate the <strong>'link_url#'</strong> column</li>
+</ul>
+</li>
+<li>
+<strong>'latitude'</strong> with a type of <strong>'number'</strong>
+</li>
+<li>
+<strong>'longitude'</strong> with a type of <strong>'number'</strong>
+</li>
+</ul>
+
+<p><img src="./images/addnewcolumndialog.png" alt="Add Columns"></p>
+
+<h2>
+<a id="entering-your-data" class="anchor" href="#entering-your-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Entering Your Data!</h2>
+
+<p>Now it's time to start putting some content into your CartoDB table. Hopefully, you've already assembled the materials you need and can simply begin to <strong>cut-&amp;_paste</strong> that data into your table.</p>
+
+<ul>
+<li>First, click on either of the <strong>Add Row</strong> buttons at the left side of the first empty row, or at the bottom right of the table, right above the <em>Add Column</em>* button.</li>
+</ul>
+
+<p><img src="./images/addnewrow.png" alt="Add a Row"></p>
+
+<ul>
+<li>Now simply <strong>double-click</strong> in the <strong>cell</strong> you want to / and <strong>cut-&amp;-paste</strong> the data for your locations into the table.</li>
+</ul>
+
+<p><img src="./images//ingcells.png" alt="Editing Cell Values"></p>
+
+<p><strong>Now all you need to do is repeat the process for all of your locations!</strong></p>
+
+<h3>
+<a id="geocoding-your-locations-making-them-show-up-on-the-map" class="anchor" href="#geocoding-your-locations-making-them-show-up-on-the-map" aria-hidden="true"><span class="octicon octicon-link"></span></a>Geocoding Your Locations (making them show up on the map)</h3>
+
+<p>Once you have finished entering all of your data, you need to tell CartoDB that your <strong>'latitude'</strong> &amp; <strong>'longitude'</strong> fields contain the geographic information about your locations. This will create <strong>geometry</strong> data in the default column, <strong>'the-geom'</strong>.</p>
+
+<ul>
+<li>Click on the orange <strong>GEO</strong> button, to the right of the name of the <strong>'the_geom'</strong> column</li>
+</ul>
+
+<p><img src="./images/geobutton.png" alt="GEO Button"></p>
+
+<ul>
+<li>CartoDB should guess that your coordinate columns are called <strong>'longitude'</strong> &amp; <strong>'latitude'</strong>
+</li>
+<li>Click <strong>Continue</strong>
+</li>
+</ul>
+
+<p><img src="./images/geocontinue.png" alt="Geocoding (selecting the columns)"></p>
+
+<blockquote>
+<p>You may have noticed that we could have simply placed <strong>street addresses</strong> into our table and <strong>'geocoded'</strong> our data that way. We used <strong>coordinate</strong> for two reasons:</p>
+
+<ul>
+<li>First, <strong>geocoding street addresses</strong> in CartoDB comes with a quota, <strong>geocoding</strong> with <strong>coordinates</strong> doesn't...</li>
+<li>Second, we're mapping historical locations/addresses that might not necessarily be the same, now, as they were, historically. Streets change names, disappear and are created through time.</li>
+</ul>
+</blockquote>
+
+<p><img src="./images/the_geom.png" alt="the_geom"></p>
+
+<ul>
+<li>That's it! You should see your coordinates in the <strong>'the_geom'</strong> column, now!</li>
+<li>Click on the <strong>MAP VIEW</strong> button at the top and center of the page to see your locations appear on the map.</li>
+</ul>
+
+<p><img src="./images/mapview.png" alt="Map View"></p>
+
+<p>Ok. You've got a CartoDB map, now. We're not going to go into creating custom symbols, etc... since you can just go the the <strong>CartoDB Academy</strong> page (see the top of this page) and get all of that. We're just going to stick with the default symbol for this tutorial.</p>
+
+<h3>
+<a id="customizing-the-click--hover-pop-ups" class="anchor" href="#customizing-the-click--hover-pop-ups" aria-hidden="true"><span class="octicon octicon-link"></span></a>Customizing the Click &amp; Hover Pop-ups</h3>
+
+<p>Now we want to do a little culstomization of the pop-ups that will appear when you click or hover on the points in your map. Notice that, right now, nothing happens when you hover over a point, and you get a message that <strong><em>"You haven’t selected any fields to be shown in the infowindow."</em></strong> when you click on a point. Now is time to fix that, but we're going to go beyond just showing the fields we've entered, since they are just <strong>URLs</strong> and not terribly interesting. </p>
+
+<p><img src="./images/defaultpopup.png" alt="Boring default pop-up"></p>
+
+<ul>
+<li>Click on the <strong>infowindow</strong> button to open the CartoDB control panel at the right side of the page. </li>
+</ul>
+
+<p><img src="./images/popupbutton.png" alt="infowindow customization"></p>
+
+<ul>
+<li>Click on the <strong>header</strong> dropdown and select the <strong>image header</strong> type</li>
+</ul>
+
+<p><img src="./images/headerdropdown.png" alt="Header Selection"></p>
+
+<ul>
+<li>Use the <strong>swithes</strong> to turn on all but the <strong>latitude</strong> &amp; <strong>longitude</strong> fields for display in the pop-up</li>
+<li>Toggle all of the <strong>title</strong> checkboxes <strong>off</strong>
+</li>
+<li>
+<strong>Drag-and-Drop</strong> the enabled fields to reorder them so that they are ordered like so:
+
+<ul>
+<li><strong>name</strong></li>
+<li><strong>description</strong></li>
+<li><strong>link_url1</strong></li>
+</ul>
+</li>
+<li>Now, click on the <strong>Change HTML</strong> link at the top right of the Cick pop-up panel</li>
+</ul>
+
+<p><img src="./images/changehtml.png" alt="Change HTML Link"></p>
+
+<ul>
+<li>
+<p>Find the following code:</p>
+
+<blockquote>
+<pre><code> &lt;h1 class="order1"&gt;{{description}}&lt;/h1&gt;
+</code></pre>
+</blockquote>
+
+<p>And replace it with:</p>
+
+<blockquote>
+<pre><code> &lt;h1 class="order1"&gt;{{name}}&lt;/h1&gt;
+</code></pre>
+</blockquote>
+
+<p>and click <strong>Apply</strong></p>
+</li>
+</ul>
+
+<p>This should change the text in the pop-up header to the <strong>name</strong> value you put in the corresponding column.</p>
+
+<ul>
+<li>
+<p>Find the following code:</p>
+
+<blockquote>
+<pre><code> &lt;img src="{{name}}"
+</code></pre>
+</blockquote>
+
+<p>And replace it with:</p>
+
+<blockquote>
+<pre><code> &lt;img src="{{img_url1}}"
+</code></pre>
+</blockquote>
+
+<p>and click <strong>Apply</strong></p>
+</li>
+</ul>
+
+<p>This should replace the current error message in the header with the image for which you placed the URL in your <strong>'img_url1'</strong> column.</p>
+
+<ul>
+<li>
+<p>Finally, find the following code:</p>
+
+<blockquote>
+<pre><code> &lt;p&gt;{{link_url1}}&lt;/p&gt;
+</code></pre>
+</blockquote>
+
+<p>And replace it with:</p>
+
+<blockquote>
+<pre><code> &lt;a href="{{link_url1}}" target="_blank"'&gt;More Information&lt;/a&gt;
+</code></pre>
+</blockquote>
+
+<p>and click <strong>Apply</strong></p>
+</li>
+</ul>
+
+<p><img src="./images/custompopup.png" alt="Custom Pop-up"></p>
+
+<h3>
+<a id="a-little-more-work" class="anchor" href="#a-little-more-work" aria-hidden="true"><span class="octicon octicon-link"></span></a>A Little More Work</h3>
+
+<p>You can customize your CartoDB map a bit more, now, using the <strong>Options</strong> button, etc... I suggest at least setting the options for <strong>Scroll Wheel Zoom</strong>.</p>
+
+<p><img src="./images/options.png" alt="Options"></p>
+
+<p>That's it! We're now ready to switch gears to create a Story Map with <strong>Odyssey.js</strong></p>
+
+<p>You can find my Tattoo map at </p>
+
+<h2>
+<a id="creating-a-story-map-with-odysseyjs" class="anchor" href="#creating-a-story-map-with-odysseyjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a Story Map with Odyssey.js</h2>
+
+<p>Now that you've created the data for your story map, you're ready to go and build the narrative/navigation part of your application. We're going to use Odyssey.js for this. Odyssey.js is actually a JavaScript library that you can use on your own web  server, but CartoDB has implemented a <strong>Sandbox</strong> that allows non-programmers to deploy a story map with very little coding and without any web server infrastructure, at all.</p>
+
+<h3>
+<a id="choosing-an-odysseyjs-template" class="anchor" href="#choosing-an-odysseyjs-template" aria-hidden="true"><span class="octicon octicon-link"></span></a>Choosing an Odyssey.js Template</h3>
+
+<ul>
+<li>First, go to <a href="http://cartodb.github.io/odyssey.js/">http://cartodb.github.io/odyssey.js/</a> and click on the </li>
+</ul>
+
+<p><img src="./images/createstory.png" alt="Create a Story"></p>
+
+<ul>
+<li>Now, <strong>select</strong> the <strong>Slides Template</strong>
+</li>
+</ul>
+
+<p><img src="./images/slidestemplate.png" alt="Slides Template"></p>
+        </section>
+
+        <footer>
+          Cartodb Odyssey.js Tutorial for Story Maps is maintained by <a href="https://github.com/StanfordGeospatialCenter">StanfordGeospatialCenter</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+                  <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-56156789-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+      </div>
+    </div>
+  </body>
+</html>
